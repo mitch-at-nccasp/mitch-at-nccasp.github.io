@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <style>
 
-.states :hover {
-  fill: red;
-}
-
 .state-borders {
   fill: none;
-  stroke: #fff;
-  stroke-width: 0.5px;
+  stroke: #000000;
+  stroke-width: 1px;
   stroke-linejoin: round;
   stroke-linecap: round;
   pointer-events: none;
@@ -16,44 +12,19 @@
 
 </style>
 <svg width="960" height="600"></svg>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/topojson.v2.min.js"></script>
 
 <script>
     var idsMapping = {}
-    function loadJSON(path, success, error)
-    {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function()
-        {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    if (success)
-                        success(JSON.parse(xhr.responseText));
-                } else {
-                    if (error)
-                        error(xhr);
-                }
-            }
-        };
-        xhr.open("GET", path, true);
-        xhr.send();
-    }
-    
-    function handleData(data) {
-        var geometries = data.objects.states.geometries
-        for(geometry of geometries) {
-            idsMapping[geometry.id] = geometry.properties.name
-        }
-        console.log(idsMapping);
-    }
-    
-    function  handleError(error) {
-        console.error(error);
-    }
-    
-    loadJSON("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json", handleData, handleError);
-    </script>
+    var gradesMapping = {}
+    $.getJSON("/data/states-ids.json", function(d) {idsMapping = d});
+    $.getJSON("/data/2019/states-grades.json", function(d) {gradesMapping = d});
+</script>
 
 <script src="/scripts/us-map.js"></script>
 
