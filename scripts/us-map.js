@@ -6,7 +6,21 @@ svg.append("rect")
 
 var path = d3.geoPath();
 
-var gradeColors = [d3.rgb(250, 250, 250), d3.rgb(255, 210, 210), d3.rgb(255, 150, 150), d3.rgb(255, 80, 80), d3.rgb(255, 0, 0)];
+var gradeColors = {
+    "A+": d3.rgb(250, 250, 250),
+    "A": d3.rgb(250, 250, 250),
+    "A-": d3.rgb(250, 250, 250),
+    "B+": d3.rgb(255, 153, 153),
+    "B": d3.rgb(250, 100, 100),
+    "B-": d3.rgb(250, 100, 100),
+    "C+": d3.rgb(200, 53, 53),
+    "C": d3.rgb(200, 53, 53),
+    "C-": d3.rgb(200, 53, 53),
+    "D+": d3.rgb(200, 0, 0),
+    "D": d3.rgb(152, 50, 50),
+    "D-": d3.rgb(152, 50, 50),
+    "F": d3.rgb(152, 0, 0)
+}
 
 d3.json("https://mitch-at-nccasp.github.io/data/topology/us-10m.v1.json", function(error, us) {
   if (error) throw error;
@@ -19,12 +33,14 @@ d3.json("https://mitch-at-nccasp.github.io/data/topology/us-10m.v1.json", functi
     .style("fill", function(d) {
         var grade = gradesMapping[idsMapping[d.id]]
         if(grade) {
-            var colorIndex = Math.min((grade["grade"]).charCodeAt(0) - "A".charCodeAt(0), 4)
-            return gradeColors[colorIndex]
+            return gradeColors[grade["grade"]]
         } else {
             return d3.rgb(255, 255, 255)
         }
 
+    })
+    .style("hover", function(d) {
+        return d3.rgb(100, 100, 255, .5);
     })
     .on("click", onStateClick);
 
