@@ -2,7 +2,7 @@ var svg = d3.select("svg");
 
 var path = d3.geoPath();
 
-d3.json("/data/topology/us-10m.v1.json", function(error, us) {
+d3.json("http://mitch-at-nccasp.github.io/data/topology/us-10m.v1.json", function(error, us) {
   if (error) throw error;
 
   svg.append("g")
