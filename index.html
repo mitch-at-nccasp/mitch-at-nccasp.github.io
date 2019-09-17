@@ -18,4 +18,42 @@
 <svg width="960" height="600"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/topojson.v2.min.js"></script>
+
+<script>
+    var idsMapping = {}
+    function loadJSON(path, success, error)
+    {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function()
+        {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    if (success)
+                        success(JSON.parse(xhr.responseText));
+                } else {
+                    if (error)
+                        error(xhr);
+                }
+            }
+        };
+        xhr.open("GET", path, true);
+        xhr.send();
+    }
+    
+    function handleData(data) {
+        var geometries = data.objects.states.geometries
+        for(geometry of geometries) {
+            idsMapping[geometry.id] = geometry.properties.name
+        }
+        console.log(idsMapping);
+    }
+    
+    function  handleError(error) {
+        console.error(error);
+    }
+    
+    loadJSON("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json", handleData, handleError);
+    </script>
+
 <script src="/scripts/us-map.js"></script>
+

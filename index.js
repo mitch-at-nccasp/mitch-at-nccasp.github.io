@@ -1,0 +1,6 @@
+const express = require("express")
+const app = express()
+app.use("/data", express.static("data"))
+app.use("/scripts", express.static("scripts"))
+app.get("/", (req, res) => res.sendFile(__dirname + "/index.html"))
+app.listen(3000, () => console.log("Listening on port 3000"))
